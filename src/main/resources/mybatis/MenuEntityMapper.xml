@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogx.mapper.MenuEntityMapper">
+  <resultMap id="BaseResultMap" type="com.blogx.entity.MenuEntity">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="permissible_mark" jdbcType="VARCHAR" property="permissibleMark" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="reserve" jdbcType="VARCHAR" property="reserve" />
+  </resultMap>
+</mapper>

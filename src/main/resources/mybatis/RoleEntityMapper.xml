@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blogx.mapper.RoleEntityMapper">
+  <resultMap id="BaseResultMap" type="com.blogx.entity.RoleEntity">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_uer_id" jdbcType="INTEGER" property="createUerId" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="reserve" jdbcType="VARCHAR" property="reserve" />
+  </resultMap>
+</mapper>
