@@ -47,11 +47,11 @@ public class ShiroConfig {
         //Shiro的核心安全接口,这个属性是必须的
         shiroFilter.setSecurityManager(securityManager);
         //登录时的链接
-        shiroFilter.setLoginUrl("/login");
+        //shiroFilter.setLoginUrl("/login");
         //登录成功之后跳转的链接
 //        shiroFilter.setSuccessUrl("/index.html");
         //用户访问未授权的资源，所显示的链接地址
-        shiroFilter.setUnauthorizedUrl("/unauthor");
+        //shiroFilter.setUnauthorizedUrl("/unauthor");
 
         //shiro 过滤器
         Map<String, String> filterMap = new LinkedHashMap<>();
@@ -66,10 +66,11 @@ public class ShiroConfig {
 //        filterMap.put("/swagger-resources/configuration/ui", "anon");
 
         // 登录以及验证码
-        filterMap.put("/login", "anon");
-        filterMap.put("/verifycode", "anon");
-        filterMap.put("/verify", "anon");
-        filterMap.put("/**", "authc");
+//        filterMap.put("/login", "anon");
+//        filterMap.put("/base", "anon");
+//        filterMap.put("/verifycode", "anon");
+//        filterMap.put("/verify", "anon");
+//        filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 
         return shiroFilter;
