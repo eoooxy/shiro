@@ -37,12 +37,11 @@ import java.io.IOException;
 @Api(tags = "base", description = "基础模块")
 public class LoginController {
 
-	@ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ApiOperation("登录")
     public String postLogin(@ApiParam("登录对象") @NotBlank @RequestBody UserVo user) {
-		String username = user.getUsername();
-		String password = user.getPassword();
+        String username = user.getUsername();
+        String password = user.getPassword();
         if (null == username || "".equals(username) || null == password || "".equals(password)) {
             return ResUtils.err("账号或密码不能为空");
         }
@@ -71,7 +70,6 @@ public class LoginController {
      * @param session
      * @throws IOException
      */
-    @ResponseBody
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
     @ApiOperation("得到验证码流")
     public void imageCode(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
@@ -91,22 +89,21 @@ public class LoginController {
      * 验证输入的验证码
      *
      * @param session
-     * @param verifycode
+     * @param code
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/verifycode", method = RequestMethod.GET)
     @ApiOperation("验证输入的验证码")
-    public String verityCode(HttpSession session, @ApiParam("验证码") @RequestParam(required = true)String verifycode) {
+    public String verityCode(HttpSession session, @ApiParam("验证码") @RequestParam(required = false, value = "code") String code) {
 
-        if (StringUtils.isBlank(verifycode) && verifycode == null) {
+        if (StringUtils.isBlank(code) && code == null) {
             return ResUtils.err();
         }
         String vercode = (String) session.getAttribute("verCode");
         if (StringUtils.isBlank(vercode)) {
             return ResUtils.err();
         }
-        if (vercode.equalsIgnoreCase(verifycode)) {
+        if (vercode.equalsIgnoreCase(code)) {
             return ResUtils.ok();
         } else {
             return ResUtils.err();
@@ -118,7 +115,6 @@ public class LoginController {
      *
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/unauthor", method = RequestMethod.GET)
     @ApiOperation("当前角色没有权限的 返回值")
     public String unAuthor() {

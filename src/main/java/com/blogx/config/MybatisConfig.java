@@ -16,11 +16,12 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 @Configuration
-@MapperScan(basePackages = "com.blogx.mapper", sqlSessionTemplateRef  = "sqlSessionTemplate")
+@MapperScan(basePackages = "com.blogx.mapper", sqlSessionTemplateRef = "sqlSessionTemplate")
 public class MybatisConfig {
-	@Bean(name = "dataSource")
-	@ConfigurationProperties(prefix = "spring.datasource")
-	@Primary
+
+    @Bean(name = "dataSource")
+    @ConfigurationProperties(prefix = "spring.datasource")
+    @Primary
     public DataSource testDataSource() {
         return DataSourceBuilder.create().build();
     }

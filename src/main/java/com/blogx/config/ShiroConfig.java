@@ -47,7 +47,7 @@ public class ShiroConfig {
         //Shiro的核心安全接口,这个属性是必须的
         shiroFilter.setSecurityManager(securityManager);
         //登录时的链接
-        //shiroFilter.setLoginUrl("/login");
+//        shiroFilter.setLoginUrl("/index");
         //登录成功之后跳转的链接
 //        shiroFilter.setSuccessUrl("/index.html");
         //用户访问未授权的资源，所显示的链接地址
@@ -56,20 +56,19 @@ public class ShiroConfig {
         //shiro 过滤器
         Map<String, String> filterMap = new LinkedHashMap<>();
 
-//        filterMap.put("/public/**", "anon");
-//        filterMap.put("/webjars/**", "anon");
-//        filterMap.put("/api/**", "anon");
+        filterMap.put("/static/**", "anon");
+        filterMap.put("/webjars/**", "anon");
+        filterMap.put("/api/**", "anon");
 //
 //        //swagger配置
-//        filterMap.put("/swagger**", "anon");
-//        filterMap.put("/v2/api-docs", "anon");
-//        filterMap.put("/swagger-resources/configuration/ui", "anon");
+        filterMap.put("/swagger**", "anon");
+        filterMap.put("/v2/api-docs", "anon");
+        filterMap.put("/swagger-resources/configuration/ui", "anon");
 
         // 登录以及验证码
-//        filterMap.put("/login", "anon");
-//        filterMap.put("/base", "anon");
-//        filterMap.put("/verifycode", "anon");
-//        filterMap.put("/verify", "anon");
+        filterMap.put("/base/**", "anon");
+        filterMap.put("/", "anon");  //对`/` 请求放行
+
 //        filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 

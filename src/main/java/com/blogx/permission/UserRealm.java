@@ -1,9 +1,7 @@
 package com.blogx.permission;
 
-import com.blogx.entity.MenuEntity;
 import com.blogx.entity.UserEntity;
 import com.blogx.service.MenuService;
-import com.blogx.service.RoleService;
 import com.blogx.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -13,8 +11,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 /**

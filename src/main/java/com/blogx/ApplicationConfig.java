@@ -2,6 +2,8 @@ package com.blogx;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 /**
  * author： xueyuan
@@ -9,11 +11,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
-//@MapperScan(basePackages = "com.blogx.mapper")
-public class ApplicationConfig {
+public class ApplicationConfig extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         //SpringApplication application = new SpringApplication();
         SpringApplication.run(ApplicationConfig.class);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(ApplicationConfig.class);
     }
 }
