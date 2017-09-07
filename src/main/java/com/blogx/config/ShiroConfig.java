@@ -43,15 +43,16 @@ public class ShiroConfig {
 
     @Bean("shiroFilter")
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         //Shiro的核心安全接口,这个属性是必须的
         shiroFilter.setSecurityManager(securityManager);
         //登录时的链接
-//        shiroFilter.setLoginUrl("/index");
+        shiroFilter.setLoginUrl("/");
         //登录成功之后跳转的链接
-//        shiroFilter.setSuccessUrl("/index.html");
+        //shiroFilter.setSuccessUrl("/index.html");
         //用户访问未授权的资源，所显示的链接地址
-        //shiroFilter.setUnauthorizedUrl("/unauthor");
+        shiroFilter.setUnauthorizedUrl("/base/unauthor");
 
         //shiro 过滤器
         Map<String, String> filterMap = new LinkedHashMap<>();
@@ -59,20 +60,23 @@ public class ShiroConfig {
         filterMap.put("/static/**", "anon");
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/api/**", "anon");
-//
-//        //swagger配置
+
+        //swagger配置
         filterMap.put("/swagger**", "anon");
         filterMap.put("/v2/api-docs", "anon");
-        filterMap.put("/swagger-resources/configuration/ui", "anon");
 
-        // 登录以及验证码
+        //swagger页面显示的静态页面
+        filterMap.put("/zh-cn*", "anon");
+        filterMap.put("/springfox*", "anon");
+        filterMap.put("/swagger-ui*", "anon");
+
         filterMap.put("/base/**", "anon");
-        filterMap.put("/", "anon");  //对`/` 请求放行
+//        filterMap.put("/", "anon");
 
-//        filterMap.put("/**", "authc");
+        filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
-
         return shiroFilter;
+
     }
 
     /**
