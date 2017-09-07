@@ -57,22 +57,18 @@ public class ShiroConfig {
         //shiro 过滤器
         Map<String, String> filterMap = new LinkedHashMap<>();
 
-        filterMap.put("/static/**", "anon");
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/api/**", "anon");
 
         //swagger配置
         filterMap.put("/swagger**", "anon");
         filterMap.put("/v2/api-docs", "anon");
-
-        //swagger页面显示的静态页面
         filterMap.put("/zh-cn*", "anon");
         filterMap.put("/springfox*", "anon");
-        filterMap.put("/swagger-ui*", "anon");
+        filterMap.put("/swagger-resources", "anon");
+        filterMap.put("/swagger-resources/**", "anon");
 
         filterMap.put("/base/**", "anon");
-//        filterMap.put("/", "anon");
-
         filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
         return shiroFilter;
