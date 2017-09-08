@@ -3,9 +3,11 @@ package com.blogx.service.impl;
 import com.blogx.entity.MenuEntity;
 import com.blogx.mapper.MenuEntityMapper;
 import com.blogx.service.MenuService;
+import com.blogx.utils.PageUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.*;
 
@@ -21,7 +23,7 @@ public class MenuServiceImpl implements MenuService {
 
 
     /**
-     * 通过userId 得到当前用户所有的权限信息
+     * 通过用户id 得到当前用户所有的权限信息
      *
      * @param userId
      * @return
@@ -35,7 +37,6 @@ public class MenuServiceImpl implements MenuService {
         } else {
             list = menuEntityMapper.selectMenusByUserId(userId);
         }
-
         Set<String> sets = new HashSet<>();
         for (MenuEntity entity : list) {
             if (StringUtils.isBlank(entity.getPermissibleMark())) {
@@ -44,5 +45,29 @@ public class MenuServiceImpl implements MenuService {
             sets.addAll(Arrays.asList(entity.getPermissibleMark().trim().split(",")));
         }
         return sets;
+    }
+
+    @Override
+    public List<MenuEntity> selectMenus(PageUtils pageUtils) {
+        Example example = new Example(MenuEntity.class);
+        example.setOrderByClause("parent_id asc,order_num asc");
+        return menuEntityMapper.selectByExample(example);
+    }
+
+    @Override
+    public int insertMenuBackId(MenuEntity menuEntity) {
+        return menuEntityMapper.insertUseGeneratedKeys(menuEntity);
+    }
+
+    @Override
+    public int updateMenu(MenuEntity menuEntity) {
+        return menuEntityMapper.updateByPrimaryKeySelective(menuEntity);
+    }
+
+    @Override
+    public int delete(Integer menuId) {
+        MenuEntity menuEntity = new MenuEntity();
+        menuEntity.setMenuId(menuId);
+        return menuEntityMapper.delete(menuEntity);
     }
 }

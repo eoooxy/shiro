@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface MenuEntityMapper extends MyMapper<MenuEntity> {
+
     List<MenuEntity> selectMenusByUserId(Integer userId);
+
 }

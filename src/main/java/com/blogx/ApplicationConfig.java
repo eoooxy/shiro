@@ -15,7 +15,7 @@ public class ApplicationConfig extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         //SpringApplication application = new SpringApplication();
-        SpringApplication.run(ApplicationConfig.class, args);
+        SpringApplication.run(ApplicationConfig.class);
     }
 
     @Override

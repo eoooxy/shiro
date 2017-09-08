@@ -1,6 +1,7 @@
 package com.blogx.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class ResUtils implements Serializable {
         map.put("code", 100);
         map.put("msg", "操作成功");
         map.put("data", o);
-        return JSON.toJSONString(map);
+        return JSON.toJSONString(map, SerializerFeature.WriteMapNullValue);
     }
 
     public static String ok(String msg) {
@@ -57,7 +58,7 @@ public class ResUtils implements Serializable {
         map.put("code", 200);
         map.put("msg", "操作失败");
         map.put("data", o);
-        return JSON.toJSONString(map);
+        return JSON.toJSONString(map, SerializerFeature.WriteMapNullValue);
     }
 
     public static String other(String code, String msg) {
@@ -71,7 +72,7 @@ public class ResUtils implements Serializable {
         if (o != null) {
             map.put("data", o);
         }
-        return JSON.toJSONString(map);
+        return JSON.toJSONString(map, SerializerFeature.WriteMapNullValue);
     }
 
 

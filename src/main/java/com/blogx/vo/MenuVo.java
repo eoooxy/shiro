@@ -1,166 +1,84 @@
-package com.blogx.entity;
+package com.blogx.vo;
 
-import io.swagger.models.auth.In;
+import java.io.Serializable;
 
-import javax.persistence.*;
+/**
+ * author： xueyuan
+ * date  ： 2017-09-08 下午3:49
+ */
+public class MenuVo implements Serializable {
 
-@Table(name = "shiro_menu")
-public class MenuEntity {
-    @Id
-    @Column(name = "menu_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer menuId;
-
-    @Column(name = "menu_name")
     private String menuName;
-
-    @Column(name = "parent_id")
     private Integer parentId;
-
     private String url;
-
     private Integer type;
-
-    @Column(name = "permissible_mark")
     private String permissibleMark;
-
     private String icon;
-
-    @Column(name = "order_num")
     private Integer orderNum;
 
-    /**
-     * 预留字段
-     */
-    private String reserve;
 
-    /**
-     * @return menu_id
-     */
     public Integer getMenuId() {
         return menuId;
     }
 
-    /**
-     * @param menuId
-     */
     public void setMenuId(Integer menuId) {
         this.menuId = menuId;
     }
 
-    /**
-     * @return menu_name
-     */
     public String getMenuName() {
         return menuName;
     }
 
-    /**
-     * @param menuName
-     */
     public void setMenuName(String menuName) {
         this.menuName = menuName;
     }
 
-    /**
-     * @return parent_id
-     */
     public Integer getParentId() {
         return parentId;
     }
 
-    /**
-     * @param parentId
-     */
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
-    /**
-     * @return url
-     */
     public String getUrl() {
         return url;
     }
 
-    /**
-     * @param url
-     */
     public void setUrl(String url) {
         this.url = url;
     }
 
-    /**
-     * @return type
-     */
     public Integer getType() {
         return type;
     }
 
-    /**
-     * @param type
-     */
     public void setType(Integer type) {
         this.type = type;
     }
 
-    /**
-     * @return permissible_mark
-     */
     public String getPermissibleMark() {
         return permissibleMark;
     }
 
-    /**
-     * @param permissibleMark
-     */
     public void setPermissibleMark(String permissibleMark) {
         this.permissibleMark = permissibleMark;
     }
 
-    /**
-     * @return icon
-     */
     public String getIcon() {
         return icon;
     }
 
-    /**
-     * @param icon
-     */
     public void setIcon(String icon) {
         this.icon = icon;
     }
 
-    /**
-     * @return order_num
-     */
     public Integer getOrderNum() {
         return orderNum;
     }
 
-    /**
-     * @param orderNum
-     */
     public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
-    }
-
-    /**
-     * 获取预留字段
-     *
-     * @return reserve - 预留字段
-     */
-    public String getReserve() {
-        return reserve;
-    }
-
-    /**
-     * 设置预留字段
-     *
-     * @param reserve 预留字段
-     */
-    public void setReserve(String reserve) {
-        this.reserve = reserve;
     }
 }

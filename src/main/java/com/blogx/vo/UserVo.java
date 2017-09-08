@@ -16,6 +16,15 @@ public class UserVo implements Serializable {
     private String createTime;
     private String updateTime;
     private String reserve;
+    private String newPassword;
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
 
     public Integer getUserId() {
         return userId;

@@ -1,6 +1,9 @@
 package com.blogx.service;
 
 import com.blogx.entity.UserEntity;
+import com.blogx.utils.PageUtils;
+
+import java.util.List;
 
 /**
  * author： xueyuan
@@ -9,4 +12,15 @@ import com.blogx.entity.UserEntity;
 public interface UserService {
 
     UserEntity selectByUserName(String userName);
+
+    UserEntity selectByUserId(Integer userId);
+
+    List<UserEntity> selectUsers(PageUtils pageUtils);
+
+    int insertUserBackId(UserEntity userEntity);
+
+    int updateUser(UserEntity userEntity);
+
+    int softDelete(Integer userId);
+
 }

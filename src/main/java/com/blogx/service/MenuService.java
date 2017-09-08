@@ -1,6 +1,7 @@
 package com.blogx.service;
 
 import com.blogx.entity.MenuEntity;
+import com.blogx.utils.PageUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -13,5 +14,12 @@ public interface MenuService {
 
     Set<String> selectPermissionMarkByUserId(Integer userId);
 
-//    List<MenuEntity> selectMenus();
+    List<MenuEntity> selectMenus(PageUtils pageUtils);
+
+    int insertMenuBackId(MenuEntity menuEntity);
+
+    int updateMenu(MenuEntity menuEntity);
+
+    int delete(Integer menuId);
+
 }

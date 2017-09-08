@@ -1,6 +1,8 @@
 package com.blogx.controller;
 
+import com.blogx.constant.GlobalConstant;
 import com.blogx.constant.ResConstant;
+import com.blogx.utils.Md5Utils;
 import com.blogx.utils.ResUtils;
 import com.blogx.utils.ShiroUtils;
 import com.blogx.utils.VerifyCodeUtils;
@@ -35,20 +37,19 @@ import java.io.IOException;
 @RestController
 @RequestMapping(value = "/base")
 @Api(tags = "base", description = "基础模块")
-public class LoginController {
+public class LoginController extends BaseController {
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping(value = "/login")
     @ApiOperation("登录")
     public String postLogin(@ApiParam("登录对象") @NotBlank @RequestBody UserVo user) {
         String username = user.getUsername();
         String password = user.getPassword();
-        if (null == username || "".equals(username) || null == password || "".equals(password)) {
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             return ResUtils.err("账号或密码不能为空");
         }
-
         try {
             Subject subject = ShiroUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            UsernamePasswordToken token = new UsernamePasswordToken(username, Md5Utils.md5Encode(password, GlobalConstant.SALT));
             subject.login(token);
         } catch (UnknownAccountException e) {
             return ResUtils.err(e.getMessage());
@@ -70,7 +71,7 @@ public class LoginController {
      * @param session
      * @throws IOException
      */
-    @RequestMapping(value = "/verify", method = RequestMethod.GET)
+    @GetMapping(value = "/verify")
     @ApiOperation("得到验证码流")
     public void imageCode(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         response.setHeader("Cache-Control", "no-store, no-cache");
@@ -92,11 +93,11 @@ public class LoginController {
      * @param code
      * @return
      */
-    @RequestMapping(value = "/verifycode", method = RequestMethod.GET)
+    @GetMapping(value = "/verifycode")
     @ApiOperation("验证输入的验证码")
-    public String verityCode(HttpSession session, @ApiParam("验证码") @RequestParam(required = false, value = "code") String code) {
+    public String verityCode(HttpSession session, @ApiParam("验证码") @RequestParam String code) {
 
-        if (StringUtils.isBlank(code) && code == null) {
+        if (StringUtils.isBlank(code)) {
             return ResUtils.err();
         }
         String vercode = (String) session.getAttribute("verCode");
@@ -115,7 +116,7 @@ public class LoginController {
      *
      * @return
      */
-    @RequestMapping(value = "/unauthor", method = RequestMethod.GET)
+    @GetMapping(value = "/unauthor")
     @ApiOperation("当前角色没有权限的 返回值")
     public String unAuthor() {
         return ResUtils.other(ResConstant.NO_AUTHOR_CODE, ResConstant.NO_AUTHOR_MSG);

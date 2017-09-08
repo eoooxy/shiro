@@ -26,7 +26,7 @@ CREATE TABLE `shiro_menu` (
   `menu_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL,
   `url` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `type` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `type` int(1) COLLATE utf8_bin DEFAULT NULL,
   `permissible_mark` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `icon` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `order_num` int(11) DEFAULT NULL,
