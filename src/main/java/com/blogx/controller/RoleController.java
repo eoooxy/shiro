@@ -2,6 +2,8 @@ package com.blogx.controller;
 
 import com.blogx.constant.ResConstant;
 import com.blogx.entity.RoleEntity;
+import com.blogx.entity.RoleMenuEntity;
+import com.blogx.service.RoleMenuService;
 import com.blogx.service.RoleService;
 import com.blogx.utils.ConvertUtils;
 import com.blogx.utils.DateUtils;
@@ -13,14 +15,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * author： xueyuan
@@ -34,6 +36,8 @@ public class RoleController extends BaseController {
 
     @Autowired
     RoleService roleService;
+    @Autowired
+    RoleMenuService roleMenuService;
 
     @PostMapping(value = "/list")
     @ApiOperation("查看所有角色信息")
@@ -47,7 +51,7 @@ public class RoleController extends BaseController {
     @PostMapping(value = "/add")
     @ApiOperation("新增角色")
 //    @RequiresPermissions("role:add")
-    public String add(@ApiParam("用户信息") @NotBlank @RequestBody RoleVo roleVo) {
+    public String add(@ApiParam("用户信息")   RoleVo roleVo) {
         if (StringUtils.isBlank(roleVo.getRoleName())) {
             return ResUtils.other(ResConstant.PARAMS_NOT_NULL, "角色名称为必填且不能为空!");
         }
@@ -55,22 +59,31 @@ public class RoleController extends BaseController {
         roleEntity.setRoleId(-1);
         roleEntity.setCreateTime(DateUtils.formatDate(new Date()));
         if (roleService.insertRoleBackId(roleEntity) > 0) {
-            return ResUtils.ok();
+            List<RoleMenuEntity> list = roleVo.getMenuIds().stream().
+                    map(id -> createRoleMenu(id, roleVo.getRoleId())).collect(Collectors.toList());
+            if (roleMenuService.batchInsertBeachRoleMenu(list) > 0) {
+                return ResUtils.ok();
+            }
+            return ResUtils.err("权限资源插入有误！");
         }
         return ResUtils.err();
     }
 
 
-
     @PostMapping(value = "/update")
     @ApiOperation("更改角色信息")
 //    @RequiresPermissions("role:update")
-    public String update(@ApiParam("角色信息") @NotBlank @RequestBody RoleVo role) {
-        if (role.getRoleId() == null || role.getRoleId() < 1) {
+    public String update(@ApiParam("角色信息")   RoleVo roleVo) {
+        if (roleVo.getRoleId() == null || roleVo.getRoleId() < 1) {
             return ResUtils.other(ResConstant.PARAMS_NOT_NULL, "被更改的角色Id必须不能为空且大于0");
         }
-        RoleEntity roleEntity = (RoleEntity) ConvertUtils.convertDtoAndVo(role, RoleEntity.class);
+        RoleEntity roleEntity = (RoleEntity) ConvertUtils.convertDtoAndVo(roleVo, RoleEntity.class);
+        //更新角色信息，直接删除原有的菜单资源，在插入新的菜单资源
         if (roleService.updateRole(roleEntity) > 0) {
+            roleMenuService.deleteRoleMenuByRoleId(roleVo.getRoleId());
+            List<RoleMenuEntity> list = roleVo.getMenuIds().stream().
+                    map(id -> createRoleMenu(id, roleVo.getRoleId())).collect(Collectors.toList());
+            roleMenuService.batchInsertBeachRoleMenu(list);
             return ResUtils.ok();
         }
         return ResUtils.err();
@@ -79,7 +92,7 @@ public class RoleController extends BaseController {
     @PostMapping(value = "/delete")
     @ApiOperation("删除角色")
 //    @RequiresPermissions("role:delete")
-    public String delete(@ApiParam("需要删除的用户主键Id") @NotNull @RequestParam Integer roleId) {
+    public String delete(@ApiParam("需要删除的用户主键Id")   Integer roleId) {
         if (roleId < 1) {
             return ResUtils.other(ResConstant.PARAMS_NOT_NULL, "被删除的角色Id不能为空且大于0");
         }
@@ -89,4 +102,11 @@ public class RoleController extends BaseController {
         return ResUtils.err();
     }
 
+    //构造 RoleMenu实体类
+    private RoleMenuEntity createRoleMenu(Integer menuId, Integer roleId) {
+        RoleMenuEntity entity = new RoleMenuEntity();
+        entity.setMenuId(menuId);
+        entity.setRoleId(roleId);
+        return entity;
+    }
 }

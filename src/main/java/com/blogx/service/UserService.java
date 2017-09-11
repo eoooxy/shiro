@@ -2,6 +2,7 @@ package com.blogx.service;
 
 import com.blogx.entity.UserEntity;
 import com.blogx.utils.PageUtils;
+import com.blogx.vo.UserVo;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface UserService {
 
     UserEntity selectByUserId(Integer userId);
 
-    List<UserEntity> selectUsers(PageUtils pageUtils);
+    List<UserVo> selectUsers(PageUtils pageUtils);
 
     int insertUserBackId(UserEntity userEntity);
 
@@ -23,4 +24,5 @@ public interface UserService {
 
     int softDelete(Integer userId);
 
+    List<UserEntity> seachByUserName(PageUtils pageUtils, String userName);
 }

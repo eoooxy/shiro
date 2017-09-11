@@ -18,6 +18,7 @@ public class GlobalConstant {
     public static final Integer PAGE_SIZE = 10;
     public static final Integer PAGE_NUMBER = 1;
 
+    public static final Integer ADMIN_CODE=1;
 
     public enum menuType {
 

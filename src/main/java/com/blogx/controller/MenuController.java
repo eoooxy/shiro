@@ -13,10 +13,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,16 +35,23 @@ public class MenuController extends BaseController {
     @PostMapping(value = "/list")
     @ApiOperation("查看所有菜单信息")
 //    @RequiresPermissions("menu:list")
-    public String list(@ApiParam("页码") PageUtils pageUtils) {
+    public String list(@ApiParam("页码")  PageUtils pageUtils) {
         List<MenuEntity> menuEntities = menuService.selectMenus(pageUtils);
         PageInfo pageInfo = new PageInfo(menuEntities);
         return ResUtils.ok(pageInfo);
     }
 
+    @PostMapping(value = "/init")
+    @ApiOperation("当前用户的菜单信息")
+    public String init(@ApiParam("当前用户的菜单信息")  Integer userId) {
+        List<MenuEntity> menuEntities = menuService.selectMenusByUserId(userId);
+        return ResUtils.ok(menuEntities);
+    }
+
     @PostMapping(value = "/add")
     @ApiOperation("新增菜单资源")
 //    @RequiresPermissions("menu:add")
-    public String add(@ApiParam("菜单信息") @NotBlank @RequestBody MenuVo menuVo) {
+    public String add(@ApiParam("菜单信息")  MenuVo menuVo) {
         if (StringUtils.isBlank(menuVo.getMenuName())) {
             return ResUtils.other(ResConstant.PARAMS_NOT_NULL, "用户名为必填且不能为空!");
         }
@@ -56,6 +61,7 @@ public class MenuController extends BaseController {
         if (menuVo.getType() == null) {
             return ResUtils.other(ResConstant.PARAMS_NOT_NULL, "添加资源类别为必填且不能为空!");
         }
+        //权限标识，只有为目录的时候，可以没有，其他的时候必填！
         if (menuVo.getType() != GlobalConstant.menuType.List.getCode() && StringUtils.isBlank(menuVo.getPermissibleMark())) {
             return ResUtils.other(ResConstant.PARAMS_NOT_NULL, "权限标识为必填且不能为空!");
         }
@@ -69,7 +75,7 @@ public class MenuController extends BaseController {
     @PostMapping(value = "/update")
     @ApiOperation("更改菜单信息")
 //    @RequiresPermissions("menu:update")
-    public String update(@ApiParam("菜单信息") @NotBlank @RequestBody MenuVo menuVo) {
+    public String update(@ApiParam("菜单信息")  MenuVo menuVo) {
         if (menuVo.getMenuId() == null || menuVo.getMenuId() < 1) {
             return ResUtils.other(ResConstant.PARAMS_NOT_NULL, "被更改的菜单Id必须不能为空且大于0");
         }

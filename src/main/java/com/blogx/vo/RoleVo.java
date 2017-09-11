@@ -1,6 +1,7 @@
 package com.blogx.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * author： xueyuan
@@ -14,6 +15,15 @@ public class RoleVo implements Serializable {
     private Integer createUerId;
     private String createTime;
     private String reserve;
+    private List<Integer> menuIds;
+
+    public List<Integer> getMenuIds() {
+        return menuIds;
+    }
+
+    public void setMenuIds(List<Integer> menuIds) {
+        this.menuIds = menuIds;
+    }
 
     public Integer getRoleId() {
         return roleId;

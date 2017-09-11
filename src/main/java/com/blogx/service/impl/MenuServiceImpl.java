@@ -1,9 +1,11 @@
 package com.blogx.service.impl;
 
+import com.blogx.constant.GlobalConstant;
 import com.blogx.entity.MenuEntity;
 import com.blogx.mapper.MenuEntityMapper;
 import com.blogx.service.MenuService;
 import com.blogx.utils.PageUtils;
+import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,7 @@ public class MenuServiceImpl implements MenuService {
     public Set<String> selectPermissionMarkByUserId(Integer userId) {
         List<MenuEntity> list = new ArrayList<>();
 //        约定 shiro_user 表中user_id=1 为管理员即拥有所有权限
-        if (1 == userId) {
+        if (GlobalConstant.ADMIN_CODE == userId) {
             list = menuEntityMapper.selectAll();
         } else {
             list = menuEntityMapper.selectMenusByUserId(userId);
@@ -49,9 +51,23 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuEntity> selectMenus(PageUtils pageUtils) {
+        PageHelper.startPage(pageUtils.getPageNum(), pageUtils.getPageSize());
         Example example = new Example(MenuEntity.class);
         example.setOrderByClause("parent_id asc,order_num asc");
         return menuEntityMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<MenuEntity> selectMenusByUserId(Integer userId) {
+        List<MenuEntity> list = new ArrayList<>();
+        if (GlobalConstant.ADMIN_CODE == userId) {
+            Example example = new Example(MenuEntity.class);
+            example.setOrderByClause("parent_id asc,order_num asc");
+            list = menuEntityMapper.selectByExample(example);
+        } else {
+            list = menuEntityMapper.selectMenusByUserId(userId);
+        }
+        return list;
     }
 
     @Override

@@ -17,6 +17,15 @@ public class UserVo implements Serializable {
     private String updateTime;
     private String reserve;
     private String newPassword;
+    private Integer roleId;
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
 
     public String getNewPassword() {
         return newPassword;

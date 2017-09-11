@@ -16,6 +16,8 @@ public interface MenuService {
 
     List<MenuEntity> selectMenus(PageUtils pageUtils);
 
+    List<MenuEntity> selectMenusByUserId(Integer userId);
+
     int insertMenuBackId(MenuEntity menuEntity);
 
     int updateMenu(MenuEntity menuEntity);

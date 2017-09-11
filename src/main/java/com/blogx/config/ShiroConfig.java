@@ -68,6 +68,9 @@ public class ShiroConfig {
         filterMap.put("/swagger-resources", "anon");
         filterMap.put("/swagger-resources/**", "anon");
 
+        //用户生成左侧菜单
+        filterMap.put("/menu/init", "anon");
+
         filterMap.put("/base/**", "anon");
 //        filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);

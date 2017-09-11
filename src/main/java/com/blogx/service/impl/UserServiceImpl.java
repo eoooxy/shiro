@@ -1,11 +1,14 @@
 package com.blogx.service.impl;
 
 import com.blogx.constant.GlobalConstant;
+import com.blogx.entity.UserRoleEntity;
 import com.blogx.mapper.UserEntityMapper;
 import com.blogx.entity.UserEntity;
+import com.blogx.mapper.UserRoleEntityMapper;
 import com.blogx.service.UserService;
 import com.blogx.utils.Md5Utils;
 import com.blogx.utils.PageUtils;
+import com.blogx.vo.UserVo;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +62,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<UserEntity> selectUsers(PageUtils pageUtils) {
+    public List<UserVo> selectUsers(PageUtils pageUtils) {
         PageHelper.startPage(pageUtils.getPageNum(), pageUtils.getPageSize());
-        Example example = new Example(UserEntity.class);
-        example.createCriteria().andEqualTo("status", 1);
-        return userEntityMapper.selectByExample(example);
+//        不使用这方法
+//        Example example = new Example(UserEntity.class);
+//        example.createCriteria().andEqualTo("status", 1);
+//        return userEntityMapper.selectByExample(example);
+        return userEntityMapper.selectUsers();
     }
 
     /**
@@ -106,5 +111,20 @@ public class UserServiceImpl implements UserService {
         userEntity.setUserId(userId);
         userEntity.setStatus(GlobalConstant.DISABLE);
         return userEntityMapper.updateByPrimaryKeySelective(userEntity);
+    }
+
+    /**
+     * 用户模糊查找
+     *
+     * @param pageUtils
+     * @param userName
+     * @return
+     */
+    @Override
+    public List<UserEntity> seachByUserName(PageUtils pageUtils, String userName) {
+        PageHelper.startPage(pageUtils.getPageNum(), pageUtils.getPageSize());
+        Example example = new Example(UserEntity.class);
+        example.createCriteria().andLike("username", "%" + userName + "%");
+        return userEntityMapper.selectByExample(example);
     }
 }
